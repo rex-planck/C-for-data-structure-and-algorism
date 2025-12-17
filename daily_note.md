@@ -28,7 +28,7 @@
     9. **int front**
         - return `array[head]`
     11. **int size**
-        -return `count`
+        - return `count`
 2. **主函数入口**
     1. 首先输入n个数值进入`array`
     2. **`Cardqueue queue(n)`**
@@ -55,3 +55,4 @@
     - 自动生成 `[]()` 结构，并将光标定位在括号内。
 4. 查找 (Find): `Ctrl + F`
     - 替换 (Replace): Ctrl + H
+
