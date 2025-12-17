@@ -4,32 +4,46 @@
 class CardQueue {
 private:
     int* array;      // 动态数组存储数据
+    //* array is a dynamically allocated array to store the queue elements.
     int capacity;    // 数组总容量
+    // capacity represents the total capacity of the array.
     int head;        // 队头索引
+    // head is the index of the front of the queue.
     int tail;        // 队尾索引（指向下一个空位）
+    // tail is the index of the end of the queue (points to the next empty position).
     int count;       // 当前队列中的元素个数
-
+    // count is the current number of elements in the queue.
 public:
     // 构造函数：初始化队列
     // 为了防止溢出，容量设为 n + 1 (虽然循环队列 n 就够了，但多留一个空间便于判空/满逻辑，这里用 count 变量更直观)
     CardQueue(int n) {
         capacity = n + 1;
+        // capacity is set to n + 1 to prevent overflow 
+        //(although n would suffice for a circular queue, having an extra space makes it easier to handle empty/full logic; here we use the count variable for clarity).
         array = new int[capacity];
+        //array is allocated with the specified capacity.
         head = 0;
+        // Initialize head index to 0.
         tail = 0;
+        // Initialize tail index to 0.
         count = 0;
+        // Initialize count to 0.
     }
 
     // 析构函数：释放内存
     ~CardQueue() {
         delete[] array;
+        // Release the dynamically allocated memory for the array.
     }
 
     // 入队操作 (放到这叠牌的最后)
     void push(int val) {
         array[tail] = val;
+        // Place the value at the tail index.
         tail = (tail + 1) % capacity; // 循环移动 tail
+        // Move tail in a circular manner.
         count++;
+        // for each push operation, increment the count of elements in the queue.
     }
 
     // 出队操作 (扔掉第一张牌)
