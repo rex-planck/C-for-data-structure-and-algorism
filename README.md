@@ -1,9 +1,14 @@
-# 数据结构与算法学习笔记 (C语言)
+# DSA(CPP)
 
-这是我在学习 C 语言过程中的代码练习。
+this is my C++ code training 
 
-## 目录
+## catalogue
 
-### 7.模拟纸牌
+### 7. card simulation
 
-实验目的：创建队列类，使用数组描述的循环队列，实现卡牌游戏
+`project intention:` 
+  - contruct queue class, use array to describe the loop queue, then achieve the card game 
+`project description:` 
+  - set an array, 1-n(from top to bottom), u can operate at least there are 2 cards remaining
+  - drop the first card above each time, then move the second card to the very bottom
+  - input `n`, output the the `remaining cards` 
