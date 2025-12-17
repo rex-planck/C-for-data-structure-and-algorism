@@ -7,13 +7,16 @@
       - int `head` for array first element pointer  
       - int `tail` for array last element pointer  
       - int `count` for noting the current array size  
-      - int `capacity` for allocating array size  
+      - int `capacity` for allocating array size
+    
     1.2 public: for initializing array  
       - set `Cardqueue`:  
         - int `n`  
         - capacity = `n+1`  
         - array = new int [capacity]  
         - count/head/tail = 0  
+        
+
 
 
 
