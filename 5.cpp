@@ -363,9 +363,10 @@ public:
     static SparseMatrix read_Q() {
         SparseMatrix Q;
         int n, m, t;
-        // 注意：这里用 scanf，如果读取失败会返回 -1 (EOF)
+        // 注意：这里用 scanf，如果读取失败会返回 -1 (EOF)健壮性
         if (scanf("%d%d%d", &n, &m, &t) != 3) {
             return Q;
+            //直接返回原始矩阵Q，保持健壮性
         }
         Q.reset(n, m, t, false); // Q 矩阵默认为稀疏格式输入
         return Q;
@@ -433,6 +434,7 @@ public:
         if (rows != Q.rows || cols != Q.cols) {
             *this = Q;
             return -1;
+        //使得函数健壮，维度不匹配时返回 -1 并保持原矩阵不变   
         }
 
         SparseMatrix R(terms + Q.terms);
@@ -471,8 +473,30 @@ public:
     // 核心操作 2：乘法
     // 复杂度：优化后接近 O(T_result)，使用行索引加速
     int multiply(const SparseMatrix& Q_orig) {
+        /*
+        这里的MULTIPLY函数用于计算当前稀疏矩阵与另一个稀疏矩阵Q_ORIG的乘积
+        并将结果存储在当前矩阵中
+        */
         if (cols != Q_orig.rows) {
+            /*
+            矩阵乘法的维度不匹配，返回 -1 并保持原矩阵不变
+            这里的COLS表示当前矩阵的列数
+            而Q_ORIG.ROWS表示矩阵Q_ORIG的行数
+            矩阵乘法的规则要求当前矩阵的列数必须等于Q_ORIG的行数
+            如果不相等，说明无法进行矩阵乘法运算
+            于是函数返回 -1，表示乘法操作失败
+            */
+
             *this = Q_orig;
+            /*
+            这里的THIS是当前稀疏矩阵对象的指针
+            通过THIS = Q_ORIG;这行代码
+            将当前矩阵对象赋值为矩阵Q_ORIG的内容
+            这样做的目的是在乘法操作失败时
+            保持当前矩阵不变，直接将其内容替换为Q_ORIG的内容
+            这样可以确保在乘法操作无法进行时
+            当前矩阵仍然保持有效状态
+            */
             return -1;
         }
 

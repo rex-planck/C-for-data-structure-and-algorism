@@ -15,28 +15,54 @@ using namespace std;
 // 数值栈
 double valStack[MAX_STACK];
 int valTop = -1; // 栈顶指针，-1表示空
-
+/*
+栈顶指针的作用是指示当前栈中最后一个元素的位置
+当栈为空时，栈顶指针为 -1
+*/ 
 void val_push(double x) {
     valStack[++valTop] = x;
+    /*
+    这个函数的作用是将一个数值 x 压入数值栈中
+    具体步骤如下：
+    1. 先将栈顶指针 valTop 自增 1，表示栈中增加了一个元素
+    2. 然后将数值 x 存储到栈顶位置 valStack[valTop] 中
+    通过这种方式，数值栈可以动态地存储多个数值，实现后进先出 (LIFO) 的数据结构特性
+    */ 
 }
 
 double val_pop() {
     if (valTop >= 0) {
+        /*
+        这个函数的作用是从数值栈中弹出栈顶元素并返回其值
+        具体步骤如下：
+        1. 首先检查栈顶指针 valTop 是否大于等于 0，确保栈不为空
+        2. 如果栈不为空，返回栈顶元素 valStack[valTop] 的值，并将栈顶指针 valTop 自减 1，表示栈中减少了一个元素
+        3. 如果栈为空，返回 0.0 作为默认值      
+        */ 
         return valStack[valTop--];
     }
     return 0.0;
 }
 
 double val_top_val() {
+    /*
+    这个函数的作用是返回数值栈的栈顶元素的值，但不弹出它
+    具体步骤如下：
+    1. 检查栈顶指针 valTop 是否大于等于 0，确保栈不为空
+    2. 如果栈不为空，返回栈顶元素 valStack[valTop] 的值
+    3. 如果栈为空，返回 0.0 作为默认值
+    */ 
     return valStack[valTop];
 }
 
 int val_size() {
     return valTop + 1;
+    // 因为栈顶指针从 -1 开始，所以栈的大小是 valTop + 1
 }
 
 // 运算符栈
 char opStack[MAX_STACK];
+// 用于存储运算符的栈
 int opTop = -1;
 
 void op_push(char op) {
