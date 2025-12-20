@@ -10,7 +10,7 @@ struct Node {
     Node(int v) : val(v), next(nullptr) {}
 };
 
-// 2. 哈希表类
+// 2. 哈希表类（拉链法实现）
 class LinkedHashTable {
 private:
     // 桶结构：包含头指针和链表当前长度
@@ -18,6 +18,12 @@ private:
     struct Bucket {
         Node* head;
         int length;
+        /*
+        额外维护了一个 length 变量。
+        这是为了应对题目中“输出当前链表长度”的要求。
+        如果在查询时才遍历计算长度，时间复杂度是 $O(L)$（L为链表长）
+        维护一个变量则可以在 $O(1)$ 时间内直接读取，这是一种典型的空间换时间策略。
+        */ 
     };
 
     Bucket* buckets; // 桶数组
@@ -34,6 +40,11 @@ public:
         for (int i = 0; i < D; ++i) {
             buckets[i].head = nullptr;
             buckets[i].length = 0;
+            /*
+            动态申请了一个大小为 D 的桶数组。
+            注意：必须显式初始化 head 为 nullptr 和 length 为 0
+            因为 new 出来的数组内存通常包含随机垃圾值。
+            */
         }
     }
 
@@ -84,6 +95,7 @@ public:
                 return;
             }
             curr = curr->next;
+            //保持循环能够继续
         }
         cout << "Not Found" << endl;
     }

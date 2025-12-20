@@ -145,6 +145,7 @@ public:
             data = nullptr;
         }
     }
+    // 时间复杂度为 O(1)
 
     // 复制构造函数 (Deep Copy)
     /*
@@ -346,6 +347,7 @@ public:
             if (terms > 1) quickSort(0, terms - 1);
         }
     }
+    // 时间复杂度是 O(N*M) 或 O(T log T)，取决于输入格式
 
     // 静态函数：读取 Q 矩阵
     /*
@@ -427,6 +429,7 @@ public:
         }
         return Q;
     }
+    // 时间复杂度为 O(m + t)
 
     // 核心操作 3：加法
     // 复杂度：O(t1 + t2)，双指针归并
@@ -469,6 +472,7 @@ public:
         *this = R;
         return 0;
     }
+    // 时间复杂度为 O(t1 + t2)
 
     // 核心操作 2：乘法
     // 复杂度：优化后接近 O(T_result)，使用行索引加速
@@ -560,6 +564,9 @@ public:
         *this = R;
         return 0;
     }
+
+// 间复杂度接近 转置 B: $O(Cols_B + T_B)$。
+// 构建行索引: $O(Rows_A + T_A + Cols_B + T_B)$。
 
     // 核心操作 4：输出
     // 使用 printf 极大提升大量数据输出时的速度，解决 TLE 关键

@@ -27,6 +27,8 @@ struct MyStack {
     bool empty() { return topIndex == 0; }
     int top() { return data[topIndex - 1]; }
     void clear() { topIndex = 0; }
+    // 这个栈服从先进后出原则
+    // 所以在之后的后序遍历中会用到两个栈来实现逆序
 };
 
 // ==========================================
@@ -56,9 +58,11 @@ public:
     }
 
     // 1. 前序遍历 (递归要求)
+    // 根->左->右
     void preOrderRecursive(int u, bool isRoot = false) {
         if (u == -1) return;
-        
+        // 先输出根节点，再遍历左子树和右子树，一路向左遍历
+        // 向左遍历完后回溯到最近的右子树继续
         // 格式控制：第一个数字前不加空格，后续加空格
         // 但为了简化逻辑，通常输出每个数后跟空格，或者手动控制
         // 这里为了严格匹配样例（通常行末空格是被允许的，但为了美观我们稍作控制）
@@ -70,6 +74,7 @@ public:
     }
 
     // 2. 中序遍历 (非递归要求)
+    // 左->根->右
     void inOrderNonRecursive() {
         MyStack s;
         int curr = 1; // 根节点总是 1
@@ -79,6 +84,9 @@ public:
             while (curr != -1) {
                 s.push(curr);
                 curr = tree[curr].left;
+                //此时TOPINDEX++
+                // DATA里面放入curr节点
+                // 连续向左走到底
             }
             // 弹出栈顶
             curr = s.pop();
@@ -90,9 +98,14 @@ public:
     }
 
     // 3. 后序遍历 (非递归要求)
+    // 左->右->根
     // 技巧：使用双栈法。
+    // 逆序排列
     // 栈1的遍历顺序是 根->左->右，改为 根->右->左 压入栈2
     // 栈2弹出顺序即为 左->右->根
+    // 使用S1跑根、右、左顺序入S2
+    // S2出栈即为左、右、根顺序
+    // S1负责遍历，S2负责逆序输出
     void postOrderNonRecursive() {
         MyStack s1, s2;
         s1.push(1); // 根节点
