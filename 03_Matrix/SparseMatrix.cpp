@@ -510,12 +510,23 @@ public:
 
         // 对 Q 转置，便于连续访问内存 (Cache Friendly)
         SparseMatrix Q_trans = Q_orig.transpose();
-        
+/*
+痛点：矩阵乘法是 $A$ 的“行”点乘 $B$ 的“列”。
+但在三元组存储中，我们能轻易拿到“一行”的所有元素（因为是行主序，它们在内存里是连续的），但要拿到“一列”的元素，必须扫遍整个数组。
+对策：将 $B$ 转置为 $B^T$。
+此时，原矩阵 $B$ 的第 $j$ 列，就变成了 $B^T$ 的第 $j$ 行。
+收益：计算点积时，我们变成了对比两个“行向量”。
+这种连续内存访问对 CPU 缓存极其友好（Cache Friendly），能显著提升速度。
+*/ 
         // 构建 P 的行索引 (类似 CSR 格式)
         int* p_row_start = new int[rows + 2];
         for(int k = 0; k <= rows + 1; ++k) p_row_start[k] = terms;
         for (int i = terms - 1; i >= 0; --i) p_row_start[data[i].row] = i;
-
+/*
+作用：p_row_start[i] 存储了第 $i$ 行第一个非零元在 data 数组中的起始下标。
+意义：将查找一行的时间从 $O(T)$ 降低到了 $O(1)$。
+通过 p_row_start[i] 和 p_row_start[i+1]，我们能瞬间锁定这一行所有元素的内存区间。
+*/ 
         // 构建 Q_trans 的行索引
         int* q_row_start = new int[Q_trans.rows + 2];
         for(int k = 0; k <= Q_trans.rows + 1; ++k) q_row_start[k] = Q_trans.terms;
@@ -557,7 +568,11 @@ public:
                 }
             }
         }
-
+/*
+外层循环遍历 A 的行 $i$。内层循环遍历 B 的列 $j$（即 Q_trans 的行）。
+核心：计算这两个稀疏向量的点积。
+由于两个向量内的列号是有序的，使用双指针可以在线性时间内完成点积运算。
+*/ 
         delete[] p_row_start;
         delete[] q_row_start;
 
