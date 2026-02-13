@@ -1,5 +1,7 @@
 # C++ Data Structures & Algorithms (No STL Implementation)
 
+[English](README.md) | [中文](README_zh.md)
+
 > **"What I cannot create, I do not understand."** — Richard Feynman
 
 This repository demonstrates a deep dive into core data structures and algorithms using **pure C++**. All implementations are built from scratch **without the Standard Template Library (STL)** to ensure a profound understanding of memory management, pointer arithmetic, and algorithmic efficiency.
